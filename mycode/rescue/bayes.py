@@ -19,6 +19,8 @@ SA1_CORNERS = (130, 265, 180, 351) # (UL-X, UL-Y, LR-X, LR-Y)
 SA2_CORNERS = (80, 255, 130, 305)  # (UL-X, UL-Y, LR-X, LR-Y)
 SA3_CORNERS = (105, 205, 155, 255) # (UL-X, UL-Y, LR-X, LR-Y)
 
+
+
 #Create class as a template for search and rescue mission
 #that allows for three search areas:
 class Search():
@@ -26,31 +28,38 @@ class Search():
 
     def __init__(self, name):
         self.name = name
+        #Add MAP_FILE variable to self.ing attribute.
+        #Image is crayscale. To add color, use ImreadFlag as cv.IMREAD_COLOR
+        #to load the image in color mode (sets up three color  channels R, B, G):
         self.img = cv.imread(MAP_FILE, cv.IMREAD_COLOR)
         if self.img is None:
             print("Could not load map file {}".format(MAP_FILE),
+                    #"error red" text color
                     file=sys.stderr)
             sys.exit(1)
-    
-    self.area_actual = 0
-    self.sailor_actual = [0, 0] #As "local" coords without search area
+        
+        #Two attributes for the sailors actual location when found
+        #First holds the number of the search area and the second
+        #the precise (x, y) location:
+        self.area_actual = 0
+        self.sailor_actual = [0, 0] #As "local" coords without search area
 
-    self.sa1 = self.img[SA1_CORNERS[1] : SA1_CORNERS[3],
+        self.sa1 = self.img[SA1_CORNERS[1] : SA1_CORNERS[3],
                         SA1_CORNERS[0] : SA1_CORNERS[2]]
 
-    self.sa2 = self.img[SA2_CORNERS[1] : SA2_CORNERS[3],
+        self.sa2 = self.img[SA2_CORNERS[1] : SA2_CORNERS[3],
                         SA2_CORNERS[0] : SA2_CORNERS[2]]
 
-    self.sa3 = self.img[SA3_CORNERS[1] : SA3_CORNERS[3],
+        self.sa3 = self.img[SA3_CORNERS[1] : SA3_CORNERS[3],
                         SA3_CORNERS[0] : SA3_CORNERS[2]]
 
-    self.p1 = 0.2
-    self.p2 = 0.5
-    self.p3 = 0.3
+        self.p1 = 0.2
+        self.p2 = 0.5
+        self.p3 = 0.3
 
-    self.sep1 = 0
-    self.sep2 = 0
-    self.sep3 = 0
+        self.sep1 = 0
+        self.sep2 = 0
+        self.sep3 = 0
 
 
 
